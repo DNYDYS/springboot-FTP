@@ -49,9 +49,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 
         Boolean isChangeUserSuccess = ftpUtil.changeWorkingDirectory(userid);
         if (!isChangeUserSuccess){
-            log.error("FTP切换用户目录失败");
-            resultInfo.setResultCode(ResponseCode.FTP_CHANGE_USERPATH_ERROR);
-            return resultInfo;
+            log.error("FTP切换用户目录失败,该用户目录不存在，先创建用户目录");
+            ftpUtil.makeDirectory(userid);
         }
         Boolean isStoreFile = ftpUtil.storeFile(fileName, inputStream);
         if(!isStoreFile){
@@ -84,8 +83,13 @@ public class FileUploadServiceImpl implements FileUploadService {
         Boolean isChangeUserSuccess = ftpUtil.changeWorkingDirectory(userid);
         if (!isChangeUserSuccess){
             log.error("FTP切换用户目录失败");
-            resultInfo.setResultCode(ResponseCode.FTP_CHANGE_USERPATH_ERROR);
-            return resultInfo;
+            log.error("FTP切换用户目录失败,该用户目录不存在，先创建用户目录");
+            Boolean isMakeDirectory = ftpUtil.makeDirectory(userid);
+            if (!isMakeDirectory){
+                log.error(userid+"用户目录创建失败");
+                resultInfo.setResultCode(ResponseCode.FTP_LOGIN_ERROR);
+                return resultInfo;
+            }
         }
         //每次数据连接之前ftp client告诉ftp server开通 一个端口来传输数据。
         ftpUtil.enterLocalPassiveMode();

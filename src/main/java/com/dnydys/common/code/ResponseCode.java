@@ -14,7 +14,8 @@ public enum ResponseCode {
     FTP_CHANGE_BASEPATH_ERROR(2000005,"FTP切换基础目录失败"),
     FTP_CHANGE_USERPATH_ERROR(2000006,"FTP切换用户目录失败"),
     FTP_STOREFILE_ERROR(2000007,"FTP服务器端上传文件失败"),
-    FTP_RETRIEVEFILE_ERROR(2000008,"FTP服务器下载文件失败");
+    FTP_RETRIEVEFILE_ERROR(2000008,"FTP服务器下载文件失败"),
+    FTP_MAKEDIRECTORY_ERROR(2000009,"用户目录创建失败");
     private int code;
     private String desc;
 
